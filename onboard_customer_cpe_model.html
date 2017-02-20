@@ -1,0 +1,211 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+        <title>CMI Web GUI</title>
+
+<!-- import all related js and css files -->
+
+<script type="text/javascript" src="js/cmiwebgui-common.js"></script>
+<script type="text/javascript" src="js/cmiwebgui-functions.js"></script>
+<script type="text/javascript" src="js/cmiwebgui-constants.js"></script>
+
+<link rel="stylesheet" type="text/css" href="css/cmiwebgui-common.css" />
+<style type="text/css">
+.error{
+  color:red;
+  font-size: 12px;
+}
+</style>
+
+<nav class="navbar navbar-default" id="navigatebar">
+</nav>
+<script type="text/javascript">genNavigateBar();</script>
+
+</head>
+
+<body>
+<div class="container">
+<!-- Content Here -->
+<br/>
+<br/>
+<br/>
+<br/>
+
+<form class="form-horizontal" id = "onboardCustomerCPEModelForm">
+<fieldset>
+
+<!-- Form Name -->
+<legend>Onboard Customer to CPE Model</legend>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="customer-name">Customer Name</label>  
+  <div class="col-md-4">
+  <input id="customer-name" name="customer-name" type="text" placeholder="Customer Name" class="form-control input-md">
+    
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="cidn">CIDN</label>  
+  <div class="col-md-4">
+  <input id="cidn" name="cidn" type="text" placeholder="CIDN" class="form-control input-md" >
+    
+  </div>
+</div>
+
+<br/>
+<br/>
+
+<div align="center">
+<!-- Trigger the modal with a button -->
+<button type="button" class="btn btn-success btn-lg" id ="triggerValidate" >Submit</button>
+<button type="button" id ="onboardCustomerCPEModelModel" data-toggle="modal" data-target="#myModal" hidden="true">realSubmit</button>
+</div>
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Is this correct?</h4>
+      </div>
+      <div class="modal-body">
+        <textarea id = "xmlcontent" style="width: 100%; height: 200px; ">Placeholder Text for Payload XML.</textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-success" id = "goAheadButton">Yes, go ahead!</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+</fieldset>
+</form>
+
+
+<script type="text/javascript">
+
+//initiate the tooltip
+$().ready(function () { 
+
+  //$("[data-toggle='tooltip']").tooltip(); 
+
+  for( var key in onboardCustomerCPETips) {
+      //alert(key+":"+createFireWallTips[key]);
+      //alert($(key).attr('id'));
+      $('#'+key).attr('title',onboardCustomerCPETips[key]);
+  }
+
+});
+
+$('#customer-name').focus();
+
+$('#onboardCustomerCPEModelModel').on('click', function(event) {
+
+    console.log("Onboard Customer im CMI Model Submit Button Pressed");
+
+    var customerName = document.getElementById('customer-name').value
+    var custCIDN = document.getElementById('cidn').value
+
+    var onboardCustomerCPEModelModelPayload = 
+`<?xml version="1.0"?>
+<customer>
+    <customer-name>`+customerName+`</customer-name>
+    <cidn>`+custCIDN+`</cidn>
+    <customer-sites/>
+</customer>
+`;
+
+    console.log(onboardCustomerCPEModelModelPayload);
+            
+    document.getElementById("xmlcontent").value = onboardCustomerCPEModelModelPayload;
+
+});
+
+
+
+$('#goAheadButton').on('click', function(event) {
+
+
+    console.log("finalbuttonPressed");
+    var finalPayload = document.getElementById("xmlcontent").value
+
+    console.log("FINAL PAYLOAD IS" + finalPayload);
+
+    $.post("/php/onboard_customer_cpe.php", { customer_xml: finalPayload})
+      .done(function( data ) {
+        refreshStatusDivBasedonPostResult(data, "Onboard Customer to CPE Model");
+      });
+
+
+    document.getElementById('infoDiv').style.display = "block";
+    document.getElementById('onboardCustomerCPEModelForm').style.display = "none";
+    $('#myModal').modal('hide');
+
+});
+  
+</script>
+<script type="text/javascript" src="js/cmiwebgui-validation.js"></script>
+<script type="text/javascript">
+/* Input validation rules begin */
+
+var modelForm = $('#onboardCustomerCPEModelForm');
+onboardCustomerOnCPERules(modelForm);
+$('#triggerValidate').on('click',function(event)
+  {
+    if(modelForm.valid()) {
+      //If validate correct, then trigger the click of realSubmit
+      $('#onboardCustomerCPEModelModel').click();
+    }
+  });
+
+
+</script>
+
+<br/>
+<br/>
+<br/>
+
+
+<div id="infoDiv"  style="display:none;" class="answer_list" > 
+
+<div id = "statusResponseAlert" class="alert alert-info">
+    <strong>Status</strong> Click this button to check the status of the operation...
+    <button type="button" class="btn btn-success" id = "monitorStatus" onclick="monitorStatusFunction()">Monitor Status</button>
+    <button type="button" class="btn btn-success" id = "gettaskdetails" onclick="gettaskdetail();">Task Detail</button><br/>
+    <button type="button" class="btn btn-primary" id = "closestatusdivbtn" onclick='closeStatusDivOnboard("onboardCustomerCPEModelForm");'>Go Back</button>
+    <div><br/></div>
+    <div id="statustext" class="alert alert-info"></div>
+
+    <input type="hidden" id="savetaskid" value="">
+</div>
+
+
+<div class="alert alert-danger">
+  <strong>Note!</strong> Only proceed to Step 3 after Step 2 has been succesfully completed. 
+ 
+  <a href="/onboard_customer_site_to_cpe_model.html" class="btn btn-danger" role="button">Continue to Step 3</a>
+
+
+</div>
+
+
+</div>
+
+
+</div>
+</body>
+
+</html>
+
+

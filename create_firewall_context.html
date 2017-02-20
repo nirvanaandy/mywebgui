@@ -1,0 +1,215 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+        <title>CMI Web GUI</title>
+
+<!-- import all related js and css files -->
+
+<script type="text/javascript" src="js/cmiwebgui-common.js"></script>
+<script type="text/javascript" src="js/cmiwebgui-functions.js"></script>
+<script type="text/javascript" src="js/cmiwebgui-constants.js"></script>
+
+<link rel="stylesheet" type="text/css" href="css/cmiwebgui-common.css" />
+<style type="text/css">
+.error{
+  color:red;
+  font-size: 12px;
+}
+</style>
+
+<nav class="navbar navbar-default" id="navigatebar">
+</nav>
+<script type="text/javascript">genNavigateBar();</script>
+
+</head>
+
+<body>
+<div class="container">
+<!-- Content Here -->
+<br/>
+<br/>
+<br/>
+<br/>
+
+<form class="form-horizontal" id = "createFirewallContextForm">
+<fieldset>
+
+<!-- Form Name -->
+<legend>Create Firewall Context</legend>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="primary-asa-ip">Primary asa IP</label>  
+  <div class="col-md-4">
+  <input id="primary-asa-ip" name="primary-asa-ip" type="text" placeholder="Primary asa IP" class="form-control input-md" data-toggle="tooltip">
+    
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="context-name">Context Name</label>  
+  <div class="col-md-4">
+  <input id="context-name" name="context-name" type="text" placeholder="Context Name" class="form-control input-md" required>    
+  </div>
+</div>
+
+<div class="form-group">
+  <label class="col-md-4 control-label" for="context-inside-ip">Context Inside IP</label>  
+  <div class="col-md-4">
+  <input id="context-inside-ip" name="context-inside-ip" type="text" placeholder="Context Inside IP" class="form-control input-md">    
+  </div>
+</div>
+
+<div class="form-group">
+  <label class="col-md-4 control-label" for="context-outbound-nexthop-ip">Context Outbound Nexthop IP</label>  
+  <div class="col-md-4">
+  <input id="context-outbound-nexthop-ip" name="context-outbound-nexthop-ip" type="text" placeholder="Context Outbound Nexthop IP" class="form-control input-md">    
+  </div>
+</div>
+
+<br/>
+<br/>
+
+<div align="center">
+<!-- Trigger the modal with a button -->
+<button type="button" class="btn btn-success btn-lg" id ="triggerValidate" >Submit</button>
+<button type="button" id ="createFirewallContextModalBtn" data-toggle="modal" data-target="#myModal" hidden="true">realSubmit</button>
+</div>
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Is this correct?</h4>
+      </div>
+      <div class="modal-body">
+        <textarea id = "xmlcontent" style="width: 100%; height: 200px; ">Placeholder Text for Payload XML.</textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-success" id = "goAheadButton">Yes, go ahead!</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</fieldset>
+</form>
+
+
+<script type="text/javascript">
+
+//initiate the tooltip
+$().ready(function () { 
+
+  $("[data-toggle='tooltip']").tooltip(); 
+
+  for( var key in createFireWallTips) {
+      //alert(key+":"+createFireWallTips[key]);
+      //alert($(key).attr('id'));
+      $('#'+key).attr('title',createFireWallTips[key]);
+  }
+
+});
+
+
+$('#primary-asa-ip').focus();
+
+$('#createFirewallContextModalBtn').on('click', function(event) {
+
+    console.log("Create Firewall Context Submit Button Pressed");
+
+    var primaryAsaIP = document.getElementById('primary-asa-ip').value;
+    var contextName = document.getElementById('context-name').value;
+    var contextInsideIP = document.getElementById('context-inside-ip').value;
+    var contextOutboundNexthoopIP = document.getElementById('context-outbound-nexthop-ip').value;
+
+
+    var createFirewallContextPayload = 
+`<?xml version="1.0"?>
+<context>
+    <context-name>`+contextName+`</context-name>
+    <context-inside-ip>`+contextInsideIP+`</context-inside-ip>
+    <context-outbound-nexthop-ip>`+contextOutboundNexthoopIP+`</context-outbound-nexthop-ip>
+</context>
+`;
+
+    console.log(createFirewallContextPayload);
+            
+    document.getElementById("xmlcontent").value = createFirewallContextPayload;
+
+});
+
+
+
+$('#goAheadButton').on('click', function(event) {
+
+
+    console.log("finalbuttonPressed");
+    var primaryAsaIP = document.getElementById('primary-asa-ip').value;
+
+    var finalPayload = document.getElementById("xmlcontent").value
+
+    console.log("FINAL PAYLOAD IS" + finalPayload);
+
+    $.post("/php/create_firewall_context.php", { input_primary_asa_ip: primaryAsaIP, input_context_xml: finalPayload})
+      .done(function( data ) {
+        refreshStatusDivBasedonPostResult(data, "Create Firewall Context ");
+      });
+
+
+    document.getElementById('infoDiv').style.display = "block";
+    document.getElementById('createFirewallContextForm').style.display = "none";
+    $('#myModal').modal('hide');
+
+});
+  
+</script>
+<script type="text/javascript" src="js/cmiwebgui-validation.js"></script>
+<script type="text/javascript">
+/* Input validation rules begin */
+
+var modelForm = $('#createFirewallContextForm');
+createFirewallContextRules(modelForm);
+
+$('#triggerValidate').on('click',function(event)
+{
+  if(modelForm.valid()) {
+    //If validate correct, then trigger the click of realSubmit
+    $('#createFirewallContextModalBtn').click();
+  }
+});
+
+</script>
+
+<br/>
+<br/>
+<br/>
+
+
+<div id="infoDiv"  style="display:none;" class="answer_list" > 
+
+<div id = "statusResponseAlert" class="alert alert-info">
+    <strong>Status</strong> Click this button to check the status of the operation...
+    <button type="button" class="btn btn-success" id = "monitorStatus" onclick="monitorStatusFunction()">Monitor Status</button>
+    <button type="button" class="btn btn-success" id = "gettaskdetails" onclick="gettaskdetail();">Task Detail</button><br/>
+    <button type="button" class="btn btn-primary" id = "closestatusdivbtn" onclick='closeStatusDivOnboard("createFirewallContextForm");'>Go Back</button>
+    <div><br/></div>
+    <div id="statustext" class="alert alert-info"></div>
+
+    <input type="hidden" id="savetaskid" value="964411cd-f17a-4aae-8325-8a428650700c">
+</div>
+</div>
+</div>
+</body>
+
+</html>
+
+

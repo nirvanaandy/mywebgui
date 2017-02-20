@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head> 
+<meta charset="utf-8"> 
+<title>CMI Web GUI</title> 
+<style> 
+.divcss5{ position:relative; left:20px; top:20px; float:left;  width:300px; height:100px} 
+.divcss5 img{width:300px; height:100px} 
+.divcss6{ position:relative; left:20px; top:20px; width:200px; height:80px} 
+
+
+</style> 
+<link rel="stylesheet" type="text/css" href="css/mybutton.css" />
+<script type="text/javascript" src="js/cmiwebgui-common.js"></script>
+
+</head>
+<body>
+ 
+<div id="container" style="background-image:url(img/backgroundgalaxy-1.png);width:1600px;height:1200px;border:2px #ccc solid;">
+<div id="menu" style="position:relative; left:20px; top:20px; height:600px;width:400px;float:left;">
+	<div id="telstraicon" class="divcss5">
+	<img src="img/telstraicon.png" style="box-shadow: 5px 5px 30px 10px rgba(5,16,160,0.3);">
+	</div>
+	<div id="title" class="divcss5">
+	<br/>
+		<table border="0">
+		<tr><p style="font-family:arial;color:white;font-size:25px;font-weight: bold;font-style: oblique">CMI</p></tr>
+		<tr><p style="font-family:arial;color:white;font-size:25px;font-weight: bold;font-style: oblique">WEB</p></tr>
+		<tr><p style="font-family:arial;color:white;font-size:25px;font-weight: bold;font-style: oblique">INTERFACE</p></tr>
+		</table>
+		<div id="inputbox" class="divcss6">
+		<table border="0">
+		<tr>
+		<td align="left" vertial-align="center">
+		<p style="color:white;font-size:13px;font-weight: bold;">User: </p></td>
+		<td><input class="input-md" type="text" id="useraccount" width="40px"></input></td>
+		</tr>
+		<tr><td><br/></td></tr>
+		<tr>
+		<td><p style="color:white;font-size:13px;font-weight: bold;">Password: </p></td>
+		<td><input class="input-md" type="password" id="password" width="40px" onkeypress="passwdkeydown(event);"></input></td>
+		</tr>
+		</table>
+		</div><br>
+		<div id="login" class="divcss5">
+		<a href="javascript:void(0)" class="myButton" onclick="login();">Login</a>
+		<a href="javascript:void(0)" class="myButton" onclick="reset();">Reset</a>
+		</div>
+	</div>
+	
+</div>
+ 
+<div id="content" style="position:relative; left:60px; top:80px; height:400px;width:500px;float:left;">
+<img src="img/mobileicon.png" />
+
+</divstyle="font-family:arial;color:white;font-size:20px;"
+</div>
+<script type="text/javascript">
+	document.getElementById("useraccount").focus();
+	function reset(){
+		//alert("In reset");
+		document.getElementById("useraccount").value="";
+		document.getElementById("password").value="";
+		document.getElementById("useraccount").focus();
+	}
+	function login(){
+		
+		var useraccount=document.getElementById("useraccount").value;
+		var passwd=document.getElementById("password").value;
+		//alert(useraccount + " "+passwd);
+		if ( useraccount=='admin' && passwd=='admin'){
+			//alert("Correct, now redirect...");
+			//set the authentication status and user name in cookie
+			var expires = new Date();
+        	expires.setTime(expires.getTime() + 24 * 30 * 60 * 60 * 1000); // sets it for approx 30 days.
+
+	        setCookie("authenticationstatus","Success",expires,"/");
+	        setCookie("username", $("#useraccount").val(), expires, " / ");
+
+			window.location="./NCXHome.html";
+		}
+		else {
+			alert("The user account and password are not matched! Please input again.");
+			reset();			
+		}
+	}
+	function passwdkeydown(event){
+		if(event.keyCode==13){
+			//alert("Enter key pressed!");
+			login();
+		}
+	}
+</script>
+</body>
+</html>

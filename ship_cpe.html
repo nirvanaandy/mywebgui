@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+        <title>CMI Web GUI</title>
+
+<!-- import all related js and css files -->
+
+<script type="text/javascript" src="js/cmiwebgui-common.js"></script>
+<script type="text/javascript" src="js/cmiwebgui-functions.js"></script>
+<script type="text/javascript" src="js/cmiwebgui-constants.js"></script>
+
+<link rel="stylesheet" type="text/css" href="css/cmiwebgui-common.css" />
+<style type="text/css">
+.error{
+  color:red;
+  font-size: 10px;
+}
+</style>
+<nav class="navbar navbar-default" id="navigatebar">
+</nav>
+<script type="text/javascript">genNavigateBar();</script>
+
+</head>
+
+<body>
+<div class="container">
+<!-- Content Here -->
+<br/>
+<br/>
+<br/>
+<br/>
+
+<h2> Ship CPE </h2>
+<br/><br/>
+<div id="cpelist">
+<div id="selectarea">
+  <table id="selecttable" class="table">
+    <tr>
+      <td align="left"><b>Customer:</b><td>
+      <td id="customerlistbox" align="left">
+        <div>
+        <select id="customerlist" name="customerlist" class="form-control" >
+          <option value="" disabled selected="selected" style="display: none"></option>
+        </select>
+      </div>
+      </td>
+      <td align="center"><b>Customer Sites:</b></td>
+      <td id="customersitelistbox">
+        <div>
+        <select id="customersitelist" name="customersitelist" class="form-control">
+        </select>
+        </div>        
+      </td>
+      <td><button type="button" id="query" class="btn btn-success" onclick=" enquireCPERefreshCPETable('ship');">Enquire</button></td>
+      <td></td><td width="20%"></td>
+    </tr>
+  </table>
+</div>
+<br/><br/>
+<div id="tablearea">
+<table id="cpetable" class="table table-hover">
+<tbody>
+<tr>
+    <th>CPE Name</th>
+    <th></th>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- hidden button to trigger input form modal -->
+<button type="button" hidden="true" id ="shipCPEModalBtn" data-toggle="modal" data-target="#shipCPEModal">realShip</button>
+<!-- begin the ship cpe form Modal -->
+<div id="shipCPEModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Ship CPE</h4>
+      </div>
+      <div class="modal-body">
+
+          <form class="form-horizontal" id = "shipCPEForm">
+            <fieldset>
+
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="serial-number">Customer: </label>  
+              <div class="col-md-4">
+              <label id="customerlabel" class="col-md-4 control-label" name=""></label>               
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="serial-number">Customer Site: </label>  
+              <div class="col-md-4">
+              <label id="customersitelabel" class="col-md-4 control-label" name=""></label>               
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="serial-number">CPE: </label>  
+              <div class="col-md-4">
+              <label id="CPElabel" class="col-md-4 control-label" name=""></label>               
+              </div>
+            </div>
+
+            <!-- Text input-->
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="serial-number">Serial Number</label>  
+              <div class="col-md-4">
+              <input id="serial-number" name="serial-number" type="text" placeholder="Serial Number" class="form-control input-md">                
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="activation-code">Activation Code</label>  
+              <div class="col-md-4">
+              <input id="activation-code" name="activation-code" type="text" placeholder="Activation Code" class="form-control input-md">                
+              </div>
+            </div>
+
+           </fieldset>
+          </form> 
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-success" id = "goAheadButton">Ship</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+
+//Retrieve the existing customers on CPE, fill the select customer listbox
+$().ready(get_customer_cpe_fill_listbox());
+
+//When customer listbox changed, refresh the customersite listbox
+ $('#customerlist').on('change',function() {
+   enquireCustomerSiteRefreshSiteListbox();
+ });
+
+//initiate the tooltip
+$().ready(function () { 
+
+//  $("[data-toggle='tooltip']").tooltip(); 
+
+  for( var key in shipCPETips) {
+      //alert(key+":"+shipCPETips[key]);
+      $('#'+key).attr('title',shipCPETips[key]);
+  }
+
+});
+
+
+function shipCPE(cpeName){
+
+    var cidn = $('#customerlist').val();
+    var customerName = $('#customerlist').find('option:selected').text();
+    var siteId = $('#customersitelist').val();
+    var siteName = $('#customersitelist').find('option:selected').text();
+
+    if (  cidn === null || customerName.length <= 0) {
+      alert("Please select the Customer !");
+      return;
+    }
+
+    if ( siteId === null || siteName.length<=0) {
+      alert("Please select the Customer Site!");
+      return;
+    }
+
+    if ( cpeName === null || cpeName.length<=0) {
+      alert("Please select the CPE Name!");
+      return;
+    }
+
+    //Set the selected labels in shipCPE modal and show it
+    $('#customerlabel').text(customerName +"("+cidn+")");
+    $('#customerlabel').val(cidn);
+    $('#customersitelabel').text(siteName + "("+siteId+")");
+    $('#customersitelabel').val(siteId);
+    $('#CPElabel').text(cpeName);
+    $('#shipCPEModalBtn').click();
+  
+}
+
+$('#goAheadButton').on('click', function(event) {
+
+
+    console.log("finalbuttonPressed");
+
+    var cidn = $('#customerlabel').val();
+    var siteId = $('#customersitelabel').val();
+    var cpeName = $('#CPElabel').text();
+    var serialNumber = $('#serial-number').val();
+    var activationCode = $('#activation-code').val();
+    //alert(cidn+" "+siteId + " "+cpeName);
+    if(serialNumber.length<=0 || activationCode.length<=0){
+      alert("Please fill both the Serial Number and Activation Code.");
+      return;
+    }
+    
+        var shipCPEPayload = 
+`<?xml version="1.0"?>
+<ship-cpe>
+    <serial-number>`+serialNumber+`</serial-number>
+    <activation-code>`+activationCode+`</activation-code>
+</ship-cpe>
+`;
+
+    console.log("ShipCPE Payload: " + shipCPEPayload);
+
+    $.post("/php/ship_cpe.php",{ input_cidn: cidn, input_siteid: siteId, input_cpename: cpeName, input_xml: shipCPEPayload })
+      .done(function( data ) {
+            refreshStatusDivBasedonPostResult(data, "SHIP_CPE"+cpeName+" on Customer "+cidn+" Site "+siteId);
+      });
+
+    //Set the shipped cpe name
+    $('#shippedCpeName').val(cpeName);
+    document.getElementById('infoDiv').style.display = "block";
+    $('#cpelist').hide();
+    $('#shipCPEModal').modal('hide');
+
+});
+
+$('#shipCPEModal').on('hide.bs.modal', function(){
+    //reset ship CPE Form
+    $('#customerlabel').text("");
+    $('#customerlabel').val("");
+    $('#customersitelabel').text("");
+    $('#customersitelabel').val("");
+    $('#CPElabel').text("");
+    
+    $('#serial-number').val("");
+    $('#activation-code').val("");
+               
+});
+
+function closeStatusDivonShipCPE(){
+  //Based on the ship result, return and mark the corresponding record.
+  var statusResult = $('#statustext').text();
+  var shippedCpeName = $('#shippedCpeName').val();
+  var result = "";
+  if( statusResult.indexOf('TASK STATUS: COMPLETE | PERCENTAGE COMPLETION: 100') > 0) {
+      //alert(shippedCpeName+"OK");
+      result = "Success";
+  }
+  else
+      result = "Failed";
+     //alert(shippedCpeName+"fail");
+
+  //Go through the cpe table and set the result
+  refreshCpeTable(shippedCpeName,result);
+
+  var statusDiv = document.getElementById("statustext");
+
+  document.getElementById('infoDiv').style.display = "none";
+  statusDiv.innerHTML  = "";
+  $('#cpelist').show();
+
+}
+
+function refreshCpeTable( cpeName, result){
+
+    $('#cpetable').find('tr').each(
+      function() {
+          var tdAttr =  $(this).find("td");
+          if ( cpeName == tdAttr.eq(0).text()){
+              tdAttr.eq(1).text(result);
+          };
+    });
+}
+
+$('#shipCPEModal').on('shown.bs.modal',function(){
+    $('#serial-number').focus();
+});
+
+</script>
+<script type="text/javascript" src="js/cmiwebgui-validation.js"></script>
+<script type="text/javascript">
+
+var modelForm = $('#shipCPEForm');
+
+shipCPERules(modelForm);
+
+</script>
+
+</div>
+
+<!-- Start of the monitor status div -->
+<div id="infoDiv"  style="display:none" class="answer_list"> 
+
+  <div id = "statusResponseAlert" class="alert alert-info">
+      <strong>Status</strong> Now is shipping CPE ...
+      <button type="button" class="btn btn-success" id = "monitorStatus" onclick="monitorStatusFunction()">Monitor Status</button>
+    <button type="button" class="btn btn-success" id = "gettaskdetails" onclick="gettaskdetail();">Task Detail</button>
+    <p>&nbsp;</p>
+    <button type="button" class="btn btn-primary" id = "closestatusdivbtn" onclick="closeStatusDivonShipCPE();">Go Back</button>
+      <div><br/></div>
+      <div id="statustext" class="alert alert-info"></div>
+    <!-- the hidden field for taskId -->
+    <input type="hidden" id="savetaskid" name="TaskId" value="" />
+    <!-- the hidden field for shipped CPE name -->
+    <input type="hidden" id="shippedCpeName" value="" name="shippedCpeName" /> 
+  </div>
+
+</div>
+<!-- End of the monitor status div -->
+
+</body>
+</html>

@@ -1,0 +1,152 @@
+
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+        <title>CMI Web GUI</title>
+
+<!-- import all related js and css files -->
+
+<script type="text/javascript" src="js/cmiwebgui-common.js"></script>
+<script type="text/javascript" src="js/testcookie.js"></script>
+
+<script type="text/javascript">
+    //Get the authentication status
+    if(getCookie("username")!= null)
+        alert(getCookie("username"));
+    else
+        window.location = "/testread.html";
+
+    if (getCookie("authentication")!= null && getCookie("authentication")=="Success")
+        alert(getCookie("authentication"));
+    else
+        window.location = "/testread.html";        
+</script>
+<link rel="stylesheet" type="text/css" href="css/cmiwebgui-common.css" />
+
+<nav class="navbar navbar-default" id="navigatebar">
+</nav>
+<script type="text/javascript">genNavigateBar();</script>
+
+</head>
+
+<body>
+
+<div class="container">
+<!-- Content Here -->
+
+<br/>
+<br/>
+<br/>
+<br/>
+
+<div class="row">
+
+        <div class="col-xs-6">
+
+                <div class="card">
+                        <div class="card-image">
+                            <img class="img-responsive" src="img/150520-TEX0398-T-Logo_1000x500px.png">
+                            <span class="card-title">1 </span>
+                        </div>
+                        
+                        <h1 style="padding: 20px;">Onboard Customer in CMI Model</h1>
+
+                        
+                        <div class="card-content">
+                            <p>Onboard customer in CMI Model</p>
+                        </div>
+                        
+                        <div class="card-action">
+                            <a href="/onboard_customer_cmi_model.html" target="new_blank">NEW</a>
+                            <a href="/view_existing_customers_cmi_model.html" target="new_blank">VIEW EXISTING</a>
+                            <a href="/delete_customer_cmi_model.html" target="new_blank">DELETE</a>
+                        </div>
+                </div>
+        </div>
+
+        <div class="col-xs-6">
+
+                <div class="card">
+                        <div class="card-image">
+                            <img class="img-responsive" src="img/150520-TEX0398-T-Logo_1000x500px.png">
+                            <span class="card-title">2 </span>
+                        </div>
+                        
+                        <h1 style="padding: 20px;">Onboard Customer in CPE Model</h1>
+
+                        
+                        <div class="card-content">
+                            <p>Onboard Customer in CPE Model</p>
+                        </div>
+                        
+                        <div class="card-action">
+                            <a href="/onboard_customer_cpe_model.html" target="new_blank">NEW</a>              
+                            <a href="/view_existing_customers_cpe_model.html" target="new_blank">VIEW EXISTING</a>
+                            <a href="/delete_customer_cpe_model.html" target="new_blank">DELETE</a>
+                        </div>
+                </div>
+        </div>
+
+        <div class="col-xs-6">
+
+                <div class="card">
+                        <div class="card-image">
+                            <img class="img-responsive" src="img/150520-TEX0398-T-Logo_1000x500px.png">
+                            <span class="card-title">3 </span>
+                        </div>
+                        
+                        <h1 style="padding: 20px;">Onboard Customer Site CPE Model</h1>
+
+                        
+                        <div class="card-content">
+                            <p>Onboard Customer Site CPE Model</p>
+                        </div>
+                        
+                        <div class="card-action">
+                            <a href="/onboard_customer_site_to_cpe_model.html" target="new_blank">NEW</a>              
+                            <a href="/view_existing_customer_sites_in_cpe_model.html" target="new_blank">VIEW EXISTING</a>
+                            <a href="/delete_customer_site_cpe_model.html" target="new_blank">DELETE</a>
+                        </div>
+                </div>
+        </div>
+
+        <div class="col-xs-6">
+
+                <div class="card">
+                        <div class="card-image">
+                            <img class="img-responsive" src="img/150520-TEX0398-T-Logo_1000x500px.png">
+                            <span class="card-title">4 </span>
+                        </div>
+                        
+                        <h1 style="padding: 20px;">Onboard CPE to Customer Site Model</h1>
+
+                        
+                        <div class="card-content">
+                            <p>Onboard CPE to Customer Site Model</p>
+                        </div>
+                        
+                        <div class="card-action">
+                            <a href="/onboard_cpe_to_customer_site.html" target="new_blank">NEW</a>
+                            <a href="/view_existing_cpe_customer_sites.html" target="new_blank">VIEW EXISTING</a>
+                            <a href="/delete_cpe_customer_site.html" target="new_blank">DELETE</a>
+                            
+                        </div>
+                </div>
+        </div>
+
+</div>
+
+<br/>
+<br/>
+<br/>
+
+</div>
+
+</body>
+
+</html>
+
+

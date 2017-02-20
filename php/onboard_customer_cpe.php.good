@@ -1,0 +1,134 @@
+<?php
+
+$customer_xml = $_POST['customer_xml']; 
+//$customer_xml = $customer_xml;
+// $customer_path='/var/www/html/xmls/onboard_customer_cpe_model_'.time().'.xml';
+// $myfile = fopen($customer_path, "w+") or die("Unable to open file!");
+// fwrite($myfile, $customer_xml);
+// fclose($myfile);
+
+$begintaskurl="https://203.58.209.189:443/restconf/operations/tasks:begin-task.xml";
+$commiturl="https://203.58.209.189:443/restconf/operations/tasks:commit-task.xml";
+$onboardcustomercpeurl="https://203.58.209.189:443/restconf/data/controller:services/cmi:cmi-maas-services/cpe-model.xml";
+onboard_customer_CPE($customer_xml);
+
+function onboard_customer_CPE($customer_xml) {
+	global $begintaskurl,$commiturl,$onboardcustomercpeurl,$customer_path;
+//Test the curl call
+ $ch = curl_init();  
+ //curl_setopt($ch, CURLOPT_URL, "https://203.58.209.189:443/restconf/data/controller:services/cmi:cmi-maas-services/cpe-model/customer=$cdin.xml");
+ curl_setopt($ch, CURLOPT_HEADER,true);
+ curl_setopt($ch, CURLOPT_HEADER, array('Content-Type: application/xml','APIVersion: 2.0','Authorization: Basic'));  
+ curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+ curl_setopt($ch, CURLOPT_USERPWD, 'admin:admin');
+ curl_setopt($ch,CURLOPT_SSL_VERIFYHOST, false);
+ $logfile = fopen('result.log-'.time(),'w+');
+ 
+ //Get the taskid at first
+ curl_setopt($ch,CURLOPT_URL,$begintaskurl);
+ curl_setopt($ch, CURLOPT_POST, true);
+ $result=curl_exec($ch); 
+ fwrite($logfile,$result);
+ 
+ if ( curl_errno($ch)) {
+	$result = 'Error returned during getting taskid. Curl error: '. curl_error($ch);
+ } 
+ $response =  curl_getinfo($ch,CURLINFO_HTTP_CODE);
+ //curl_close($ch);
+ if ( $response != '200' ) {
+	 $result= 'Error returned during getting taskid. HTTP Response: '.$response;
+ }
+ //Get the xml content
+ $pos = strpos($result,'GMT');
+ if ($pos == false)
+	 $result = "Error returned during gettting taskid. Cannot find the xml content in HTTP response";
+ else {
+	 $taskidxmlstr = trim(substr($result, $pos+3));
+	 //retrieve taskId from xml
+	 $xml = simplexml_load_string($taskidxmlstr);
+     $json = json_encode($xml);
+     $taskIdArray = json_decode($json, TRUE);
+	 //var_dump($taskIdArray);
+	 $result= $taskIdArray[0];
+ }
+ 
+ fwrite($logfile, "\n");
+ 
+ fwrite($logfile,'taskId:'.$result);
+ fwrite($logfile, "\n");
+ fwrite($logfile,$response);
+ fwrite($logfile, "\n");
+ 
+ 
+ echo $result;
+ 
+ fwrite($logfile, "\n");
+ 
+ $taskId = $result;
+ //Start to onboard customer to cpe
+ $onboardcustomercpeurl="https://203.58.209.189:443/restconf/data/controller:services/cmi:cmi-maas-services/cpe-model.xml";
+
+ curl_setopt($ch,CURLOPT_URL,$onboardcustomercpeurl);
+
+ fwrite($logfile,"\n$taskId\n");
+ //curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: text/plain','APIVersion: 2.0','Authorization: Basic','Accept: application/xml',"X-TASK-ID: $taskId"));
+ curl_setopt($ch,CURLOPT_HTTPHEADER, array('Content-Type: application/xml','X-TASK-ID: '.$taskId));
+ //curl_setopt($ch,CURLOPT_HTTPHEADER, array('X-TASK-ID: '.$taskId));
+ fwrite($logfile,"Payload: \n");
+ fwrite($logfile,$customer_xml);
+// fwrite($logfile,"Payload: \n");
+// fwrite($logfile,$customer_path);
+ //Attach the xml file
+ //$customer_xml=urlencode(utf8_encode(trim($customer_xml)));
+ //curl_setopt($ch,CURLOPT_POSTFIELDS,array('xml'=>$customer_xml));
+ curl_setopt($ch,CURLOPT_POSTFIELDS,$customer_xml);
+ //$post_data['file']="@$customer_path";
+ //curl_setopt($ch,CURLOPT_POSTFIELDS,$post_data);
+ //curl_setopt($ch,CURLOPT_POSTFIELDS,$customer_xml);
+ $result=curl_exec($ch); 
+ fwrite($logfile,"onboardbegin:\n");
+ fwrite($logfile,$result);
+
+ if ( curl_errno($ch)) {
+	$result = 'Error returned during onboarding customer. Curl error: '. curl_error($ch);
+ } 
+ fwrite($logfile,$result);
+ fwrite($logfile,"\n");
+ $response =  curl_getinfo($ch,CURLINFO_HTTP_CODE);
+ //curl_close($ch);
+ if ( $response != '202' ) {
+	 $result= 'Error returned during onboarding customer. HTTP Response: '.$response;
+ }
+ 
+ fwrite($logfile,$result);
+ fwrite($logfile,"\r\n");
+ fwrite($logfile, "Commit...");
+ fwrite($logfile,PHP_EOL);
+
+ //Call the commit api
+ curl_setopt($ch, CURLOPT_CUSTOMREQUEST,"POST");
+ curl_setopt($ch, CURLOPT_POST, true);
+ curl_setopt($ch,CURLOPT_URL,$commiturl);
+ 
+ $result=curl_exec($ch); 
+ fwrite($logfile,$result);
+
+ if ( curl_errno($ch)) {
+	$result = 'Error returned during commit onboarding customer. Curl error: '. curl_error($ch);
+ } 
+ fwrite($logfile,$result);
+ fwrite($logfile,"\r\n");
+ $response =  curl_getinfo($ch,CURLINFO_HTTP_CODE);
+ //curl_close($ch);
+ if ( $response != '202' ) {
+	 $result= 'Error returned during commit deleting customer. HTTP Response: '.$response;
+ }
+ //If there is an error, return error msg
+ if ( substr_count($result,'Error returned') > 0 )
+	echo $result;
+ fclose($logfile);
+ //echo $result;
+}
+
+	 
+?>

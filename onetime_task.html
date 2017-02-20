@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+        <title>CMI Web GUI</title>
+
+<!-- import all related js and css files -->
+
+<script type="text/javascript" src="js/cmiwebgui-common.js"></script>
+<script type="text/javascript" src="js/cmiwebgui-functions.js"></script>
+
+<link rel="stylesheet" type="text/css" href="css/cmiwebgui-common.css" />
+<style type="text/css">
+.error{
+  color:red;
+  font-size: 12px;
+}
+</style>
+
+<nav class="navbar navbar-default" id="navigatebar">
+</nav>
+<script type="text/javascript">genNavigateBar();</script>
+
+</head>
+<body>
+
+<div class="container">
+<!-- Content Here -->
+
+<br/>
+<br/>
+<br/>
+
+<form class="form-horizontal" id = "onetimeTaskForm">
+<fieldset>
+
+<!-- Form Name -->
+<legend>For One-time Tasks</legend>
+
+<!-- Text input-->
+
+<!-- Select Basic -->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="oprationname">Operation</label>
+  <div class="col-md-4">
+    <select id="operationname" name="operationname" class="form-control">
+      <option value="CREATE_CMMI_MAAS_SERVICE_CONTAINER" selected="selected">Create CMI MaaS Service Container</option>
+      <option value="CREATE_GLOBAL_CMI_SETTING">Create Global CMI Setting</option>
+      <option value="ONBOARD_CMI_POP_LOCATION">Onboard CMI PoP location</option>
+    </select>
+  </div>
+</div>
+
+<div class="form-group">
+  <label class="col-md-4 control-label" for="payloadfile">Payload File</label>
+  <div class="col-md-4">
+    <input id="payloadfile" name="payloadfile" type="file" class="form-control input-md" accept=".xml">
+  </div>
+</div>
+
+<div class="form-group">
+  <label class="col-md-4 control-label" for="primary-firewall-ip">Payload Content</label>
+  <div class="col-md-4">
+     <textarea id = "payloadcontent" style="width: 100%; height: 250px; "></textarea>
+  </div>
+</div>
+
+
+<div align="center">
+<!-- Trigger the modal with a button -->
+<button type="button" class="btn btn-success" id ="onetimeTaskSubmitBtn" onclick="submitOnetimeTask();">Submit</button>
+</div>
+
+</fieldset>
+</form>
+
+
+
+<script type="text/javascript">
+
+
+//File change event 
+$('#payloadfile').on('change',function(){
+
+        var fileInput = document.getElementById('payloadfile');
+        var fileDisplayArea = document.getElementById('payloadcontent');
+
+        var file = fileInput.files[0];
+        var textType = /text.*/;
+        //alert(file.type);
+        if (file.type.match(textType)) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                fileDisplayArea.innerText = reader.result;
+            }
+
+            reader.readAsText(file);
+        } else {
+            fileDisplayArea.innerText = "Please only select valid xml or text file!"
+        }
+
+});
+
+
+function submitOnetimeTask () {
+
+    var fileDisplayArea = document.getElementById('payloadcontent');
+    var payloadContent = $('#payloadcontent').val();
+    //alert(payloadContent);
+    if (payloadContent.trim().length<=0) {
+      alert("Please select a payload xml file first!");
+      return;
+    }
+
+    var operationName = $('#operationname').val();
+
+    var select = confirm("Are you sure to execute "+operationName+" ?");
+    if (select == true ) {
+        executeOnetimeTask(operationName, payloadContent);
+    }
+
+
+}
+
+function executeOnetimeTask (operationName, payloadContent) {
+
+    console.log("In executeOnetimeTask "+operationName);
+
+    console.log("FINAL PAYLOAD IS");
+    console.log(payloadContent);
+
+    $.post("/php/onetime_task.php", { input_operation: operationName, input_xml: payloadContent})
+    .done(function( data ) {
+      //alert(data);
+      refreshStatusDivBasedonPostResult(data, "Execute "+operationName);
+    });
+
+    document.getElementById('infoDiv').style.display = "block";
+    document.getElementById('onetimeTaskForm').style.display = "none";
+
+
+}
+
+</script>
+
+<br/>
+<br/>
+<br/>
+
+<!-- The status report div -->
+<div id="infoDiv"  style="display:none;" class="answer_list" > 
+
+<div id = "statusResponseAlert" class="alert alert-info">
+    <strong>Status</strong> Click this button to check the status of the operation ...
+    <button type="button" class="btn btn-success" id = "monitorStatus" onclick="monitorStatusFunction()">Monitor Status</button>    
+    <button type="button" class="btn btn-success" id = "gettaskdetails" onclick="gettaskdetail();">Task Detail</button> 
+    <p>&nbsp;</p>
+    <button type="button" class="btn btn-primary" id = "closestatusdivbtn" onclick="closeStatusDivOnboard('onetimeTaskForm');">Go Back</button>
+    <div><br/></div>
+      <div id="statustext" class="alert alert-info"></div>
+    <input type="hidden" id="savetaskid" value=""> 
+
+</div>
+
+
+</div>
+</div>
+</body>
+
+</html>

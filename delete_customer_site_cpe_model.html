@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+        <title>CMI Web GUI</title>
+
+<!-- import all related js and css files -->
+
+<script type="text/javascript" src="js/cmiwebgui-common.js"></script>
+<script type="text/javascript" src="js/cmiwebgui-functions.js"></script>
+
+<link rel="stylesheet" type="text/css" href="css/cmiwebgui-common.css" />
+
+<nav class="navbar navbar-default" id="navigatebar">
+</nav>
+<script type="text/javascript">genNavigateBar();</script>
+
+</head>
+
+<body>
+
+<div class="container">
+<!-- Content Here -->
+
+<br/>
+<br/>
+<br/>
+<br/>
+
+<h2> Delete Existing Customers Sites in CPE Model </h2>
+<div id="customersitelist">
+<div id="selectarea">
+  <table id="selecttable" class="table">
+    <tr>
+      <td align="left"><b>Customer:</b><td>
+      <td id="customerlistbox" align="left">
+        <div>
+        <select id="customerlist" name="customerlist" class="form-control">
+        </select>
+      </div>
+      </td>
+      <td><button type="button" id="query" class="btn btn-success" onclick=" enquireCustomerSiteRefreshSiteTable('delete'); ">Enquire</button></td>
+      <td></td><td width="40%"></td>
+    </tr>
+  </table>
+</div>
+
+<br/><br/>
+<div id="tablearea">
+<table id="customersitetable" class="table table-hover">
+<tbody>
+<tr>
+    <th>Customer Site Name</th>
+    <th>Customer Site ID</th>
+</tr>
+</tbody>
+</table>
+</div>
+</div> 
+<!-- End of the customerlist div -->
+<script type="text/javascript">
+
+//Retrieve the existing customers on CPE, fill the select customer listbox
+$().ready(get_customer_cpe_fill_listbox());
+
+function callDeleteCustomerSiteCPE(cidn, customerName, siteId, siteName) {
+
+    console.log("Call Del Customer Site in CPE method.");
+
+    console.log("Deleted customer is :" + cidn);
+    console.log("Deleted Customer Site is: " + siteId);
+
+    $.post( "/php/del_customer_site_cpe.php", { input_cidn: cidn, input_siteid: siteId})
+      .done(function( data ) {
+  
+    var statusDiv = document.getElementById("statustext");
+    //alert(data);
+    statusDiv.innerHTML = statusDiv.innerHTML + "<br />" + "Delete Customer Site"+siteName+"("+siteId +")"+ " for Customer "+customerName +"("+cidn+") on CPE Model";
+    //Set the taskId if success
+    if (data.indexOf("Error")<0) {
+
+      statusDiv.innerHTML = statusDiv.innerHTML + " called correctly. Task ID: "+data;
+      $('#savetaskid').val(data);
+      //alert($('#savetaskid').val());
+    }
+    else
+       statusDiv.innerHTML = statusDiv.innerHTML + " failed. " + data;
+
+    });
+
+    document.getElementById('infoDiv').style.display = "block";
+    $('#customersitelist').hide();
+
+}
+
+
+function delCustomerSite(siteId,siteName){
+
+    var cidn = $('#customerlist').val();
+    var customerName = $('#customerlist').find('option:selected').text();
+
+    var select = confirm("Are you sure to delete Customer Site: "+siteName+"("+siteId+") for Customer "+
+                          customerName+"("+cidn+") ?");
+    if (select == true ) {
+        callDeleteCustomerSiteCPE(cidn, customerName, siteId, siteName);
+    }
+  
+}
+
+
+</script>
+
+
+</div>
+
+<!-- Start of the monitor status div -->
+<div id="infoDiv"  style="display:none" class="answer_list"> 
+
+  <div id = "statusResponseAlert" class="alert alert-info">
+      <strong>Status</strong> Now is deleting customer in CPE Model ...
+      <button type="button" class="btn btn-success" id = "monitorStatus" onclick="monitorStatusFunction()">Monitor Status</button>
+    <button type="button" class="btn btn-success" id = "gettaskdetails" onclick="gettaskdetail();">Task Detail</button>
+    <p>&nbsp;</p>
+    <button type="button" class="btn btn-primary" id = "closestatusdivbtn" onclick="closeStatusDiv();">Go Back</button>
+      <div><br/></div>
+      <div id="statustext" class="alert alert-info"></div>
+    <!-- the hidden field for taskId -->
+    <input type="hidden" id="savetaskid" name="TaskId" value="" />
+  </div>
+
+</div>
+<!-- End of the monitor status div -->
+
+</body>
+</html>

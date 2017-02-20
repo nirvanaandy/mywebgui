@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+        <title>CMI Web GUI</title>
+
+<!-- import all related js and css files -->
+
+<script type="text/javascript" src="js/cmiwebgui-common.js"></script>
+<script type="text/javascript" src="js/cmiwebgui-functions.js"></script>
+
+<link rel="stylesheet" type="text/css" href="css/cmiwebgui-common.css" />
+
+<nav class="navbar navbar-default" id="navigatebar">
+</nav>
+<script type="text/javascript">genNavigateBar();</script>
+
+</head>
+<body>
+<div class="container">
+<!-- Content Here -->
+
+<br/>
+<br/>
+<br/>
+<br/>
+
+<h2> View Existing Customers in CMI Model </h2>
+<!--<button type="button" onclick="loadXMLDoc()">Get my CD collection</button>-->
+<br/><br/>
+<div id="customerList">
+<table id="customertable" class="table table-hover">
+<tr>
+    <th>Customer Name</th>
+    <th>CIDN</th>
+</tr>
+</table>
+</div>
+
+<!-- The end of 'customerlist' div -->
+<script>
+//Fetch the customer recoreds, and build the customer table
+$().ready(refresh_customer_cmi_table("view"));
+
+
+function viewCustomer(cidn, cname){
+  alert("Customer Name: "+cname+"\r\n"+"CIDN: "+cidn);  
+}
+
+</script>
+
+
+</div>
+
+<!-- Start of the monitor status div -->
+<!-- End of the monitor status div -->
+
+</body>
+</html>

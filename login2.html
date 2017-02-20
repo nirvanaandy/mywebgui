@@ -1,0 +1,58 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+    <head>
+                <!-- HTTP 1.1 -->
+        <meta http-equiv="Cache-Control" content="no-store"/>
+        <!-- HTTP 1.0 -->
+        <meta http-equiv="Pragma" content="no-cache"/>
+        <!-- Prevents caching at the Proxy Server -->
+        <meta http-equiv="Expires" content="0"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <meta name="generator" content="AppFuse 2.0" /> <!-- leave this for stats please -->
+        <link rel="icon" href="/images/favicon.ico"/>
+        <title>Login</title>
+
+        <link rel="stylesheet" type="text/css" media="all" href="css/anotherlogin.css" />
+		
+        <script type="text/javascript" src="/scripts/global.js"></script>
+        <script type="text/javascript" src="/scripts/jquery-1.7.1.min.js"></script>
+        <meta name="menu" content="Login" />
+            <meta name="msapplication-config" content="none" />
+    </head>
+<body>
+        <div>
+            <div >
+                <h1></h1>
+                <form method="post" action="/j_spring_security_check" onsubmit="saveUsername(this);return validateForm(this)">
+                <div class="logo">
+                    <span class="product-name">CMI WEB INTERFACE</span>
+                </div>
+                <div class="error">
+                    
+                </div>
+                <input type="hidden" class="text medium" name="j_username" id="j_username" />
+                <input type="text" name="username" id="username" class="box" placeholder="Username"/>
+                <input type="password" name="j_password" id="j_password" class="box" placeholder="Password"/>
+                
+                    <label>
+            <input type="checkbox" class="checkbox" name="_spring_security_remember_me" id="rememberMe"/>
+            Remember Me
+         </label>
+         <div><br></div>
+                <input type="submit" class="button login-button" name="login" value="Login" />
+                <table><tr><td width="30%"></td>
+                <td><label class = "copyright-msg">Powered by Telstra CMI &copy; 2017</label></td>
+		<td width="10px"></td>
+                <td>
+                <img src="img/logo.png" height="30px" width="30px" ></td>
+                </tr>
+                </table>
+            </form>
+
+            </div>
+
+        </div>
+</body>
+</html>

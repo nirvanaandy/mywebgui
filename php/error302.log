@@ -1,0 +1,58 @@
+HTTP/1.1 200 OK
+Server: Apache-Coyote/1.1
+Set-Cookie: JSESSIONID=25966AB1DA73BE4DBEB0F72ABDD39F97; Path=/; Secure; HttpOnly
+Content-Type: application/xml;charset=UTF-8
+Content-Length: 53
+Vary: Accept-Encoding
+Date: Mon, 06 Feb 2017 00:18:40 GMT
+
+<taskId>de604f39-329a-451d-bcc6-ef3f0a44874b</taskId>
+taskId:de604f39-329a-451d-bcc6-ef3f0a44874b
+200
+
+
+de604f39-329a-451d-bcc6-ef3f0a44874b
+Payload: 
+<?xml version="1.0"?>
+<customer>
+    <customer-name>YQW</customer-name>
+    <cidn>5647382910</cidn>
+    <customer-sites/>
+</customer>
+onboardbegin:
+HTTP/1.1 302 Found
+Server: Apache-Coyote/1.1
+Set-Cookie: JSESSIONID=BD935FCA3C6DB0F8749C1889C7F2C321; Path=/; Secure; HttpOnly
+Location: https://203.58.209.189/login
+Content-Length: 0
+Vary: Accept-Encoding
+Date: Mon, 06 Feb 2017 00:18:40 GMT
+
+HTTP/1.1 302 Found
+Server: Apache-Coyote/1.1
+Set-Cookie: JSESSIONID=BD935FCA3C6DB0F8749C1889C7F2C321; Path=/; Secure; HttpOnly
+Location: https://203.58.209.189/login
+Content-Length: 0
+Vary: Accept-Encoding
+Date: Mon, 06 Feb 2017 00:18:40 GMT
+
+
+Error returned during onboarding customer. HTTP Response: 302
+Commit...
+HTTP/1.1 302 Found
+Server: Apache-Coyote/1.1
+Set-Cookie: JSESSIONID=45D7E77F58145B0D5303F5BC4F8D3F56; Path=/; Secure; HttpOnly
+Location: https://203.58.209.189/login
+Content-Length: 0
+Vary: Accept-Encoding
+Date: Mon, 06 Feb 2017 00:18:40 GMT
+
+HTTP/1.1 302 Found
+Server: Apache-Coyote/1.1
+Set-Cookie: JSESSIONID=45D7E77F58145B0D5303F5BC4F8D3F56; Path=/; Secure; HttpOnly
+Location: https://203.58.209.189/login
+Content-Length: 0
+Vary: Accept-Encoding
+Date: Mon, 06 Feb 2017 00:18:40 GMT
+
+

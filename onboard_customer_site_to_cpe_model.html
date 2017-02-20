@@ -1,0 +1,301 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+        <title>CMI Web GUI</title>
+
+<!-- import all related js and css files -->
+
+<script type="text/javascript" src="js/cmiwebgui-common.js"></script>
+<script type="text/javascript" src="js/cmiwebgui-functions.js"></script>
+<script type="text/javascript" src="js/cmiwebgui-constants.js"></script>
+
+<link rel="stylesheet" type="text/css" href="css/cmiwebgui-common.css" />
+<style type="text/css">
+.error{
+  color:red;
+  font-size: 12px;
+}
+</style>
+
+<nav class="navbar navbar-default" id="navigatebar">
+</nav>
+<script type="text/javascript">genNavigateBar();</script>
+
+</head>
+
+<body>
+
+<div class="container">
+<!-- Content Here -->
+
+<br/>
+<br/>
+<br/>
+<br/>
+
+<form class="form-horizontal" id = "onboardCustomerSiteCPEModelForm">
+
+<fieldset>
+
+<!-- Form Name -->
+<legend>Onboard Customer Site to CPE Model</legend>
+
+<!-- Select listbox for Existing Customers -->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="customerlist">Customer</label>  
+  <div class="col-md-4">
+        <select id="customerlist" name="customerlist" class="form-control">
+        </select>    
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="site-id">Site ID</label>  
+  <div class="col-md-4">
+  <input id="site-id" name="site-id" type="text" placeholder="Site ID" class="form-control input-md" >
+    
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="site-name">Site Name</label>  
+  <div class="col-md-4">
+  <input id="site-name" name="site-name" type="text" placeholder="Site Name" class="form-control input-md">    
+  </div>
+</div>
+
+
+<div class="form-group">
+  <label class="col-md-4 control-label" for="northbound-system">Northbound System</label>  
+  <div class="col-md-4">
+  <input id="northbound-system" name="northbound-system" type="text" placeholder="Northbound System" class="form-control input-md" value="symphony" disabled="disabled">    
+  </div>
+</div>
+
+<div class="form-group">
+  <label class="col-md-4 control-label" for="street">Street</label>  
+  <div class="col-md-4">
+  <input id="street" name="street" type="text" placeholder="Street" class="form-control input-md" >    
+  </div>
+</div>
+
+<div class="form-group">
+  <label class="col-md-4 control-label" for="city">City</label>  
+  <div class="col-md-4">
+  <input id="city" name="city" type="text" placeholder="City" class="form-control input-md">    
+  </div>
+</div>
+
+<div class="form-group">
+  <label class="col-md-4 control-label" for="zip">Zip</label>  
+  <div class="col-md-4">
+  <input id="zip" name="zip" type="text" placeholder="Zip" class="form-control input-md">    
+  </div>
+</div>
+
+<div class="form-group">
+  <label class="col-md-4 control-label" for="state">State</label>  
+  <div class="col-md-4">
+  <input id="state" name="state" type="text" placeholder="State" class="form-control input-md">    
+  </div>
+</div>
+
+<div class="form-group">
+  <label class="col-md-4 control-label" for="siteName">Country</label>  
+  <div class="col-md-4">
+  <input id="country" name="country" type="text" placeholder="Country" class="form-control input-md">    
+  </div>
+</div>
+
+
+<br/>
+<br/>
+
+
+
+<div align="center">
+<!-- Trigger the modal with a button -->
+<button type="button" class="btn btn-success btn-lg" id ="triggerValidate" >Submit</button>
+<button type="button" id ="onboardCustomerSiteToCPEModel" data-toggle="modal" data-target="#myModal" hidden="true">realSubmit</button>
+
+</div>
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Is this correct?</h4>
+      </div>
+      <div class="modal-body">
+        <h4 id="selectedcustomertext"></h4> 
+        <textarea id = "xmlcontent" style="width: 100%; height: 200px; ">Placeholder Text for Symphony Project X-Mas.</textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-success" id = "goAheadButton">Yes, go ahead!</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+</fieldset>
+</form>
+
+
+
+<script type="text/javascript">
+//initiate the tooltip
+$().ready(function () { 
+
+  //$("[data-toggle='tooltip']").tooltip(); 
+
+  for( var key in onboardCustomerSiteCPETips) {
+      //alert(key+":"+onboardCustomerSiteCPETips[key]);
+      
+      $('#'+key).attr('title',onboardCustomerSiteCPETips[key]);
+  }
+
+});
+
+$('#site-id').focus();
+
+//Retrieve the existing customers on CPE, fill the select customer listbox
+$().ready( function(){
+
+    $.post("/php/get_customer_cpe.php").done(function(data){
+      //alert(data);
+      //Then analyse the xml, fill the customer listbox
+      var xmlDoc = $.parseXML(data);
+      $(xmlDoc).find("customer").each( function () {
+      
+          var custname = $('customer-name',this).text();
+          var cidn=$('cidn',this).text();
+          var optionStr = '<option value="'+cidn+'">'+custname+'</option>';
+          
+          $('#customerlist').append(optionStr);
+          });
+      });
+    //$('#customerlist').val('8234567898');
+});
+
+$('#onboardCustomerSiteToCPEModel').on('click', function(event) {
+
+      console.log("Onboard Customer Site to CPE Model Submit Button Pressed");
+
+      var customerNameSelect = $('#customerlist').find("option:selected").text();
+      var customerCidnSelect = $('#customerlist').val();
+      var siteID = document.getElementById('site-id').value
+      var siteName = document.getElementById('site-name').value
+			var northboundSystem = $('#northbound-system').val();
+			var street = $('#street').val();
+			var city = $('#city').val();
+			var zip = $('#zip').val();
+			var state = $('#state').val();
+			var country = $('#country').val();
+
+      var onboardCustomerSiteToCPEModelModelPayload = 
+`<?xml version="1.0"?>
+<customer-site>
+	<site-id>`+siteID+`</site-id>
+	<site-name>`+siteName+`</site-name>
+	<northbound-system>`+northboundSystem+`</northbound-system>
+	<street>`+street+`</street>
+	<city>`+city+`</city>
+	<zip>`+zip+`</zip>
+	<state>`+state+`</state>
+	<country>`+country+`</country>
+	<cpes/>
+</customer-site>
+`;
+
+      console.log(onboardCustomerSiteToCPEModelModelPayload);
+      
+      $('#selectedcustomertext').text("Onboard to Customer(CIDN): "+customerNameSelect+"("+customerCidnSelect+")");      
+      document.getElementById("xmlcontent").value = onboardCustomerSiteToCPEModelModelPayload;
+
+});
+
+
+
+$('#goAheadButton').on('click', function(event) {
+
+
+    console.log("finalbuttonPressed");
+    var finalPayload = document.getElementById("xmlcontent").value
+    var customerCidnSelect = $('#customerlist').val();
+
+    console.log("FINAL PAYLOAD IS");
+    console.log(finalPayload);
+
+
+    $.post( "/php/onboard_customer_site_cpe.php", { customer_cidn: customerCidnSelect, customer_site_xml: finalPayload })
+      .done(function( data ) {
+
+        refreshStatusDivBasedonPostResult(data, "Onboard Customer Site to CPE Model");
+
+      });
+
+    document.getElementById('infoDiv').style.display = "block";
+    document.getElementById('onboardCustomerSiteCPEModelForm').style.display = "none";
+    $('#myModal').modal('hide');
+
+});
+
+</script>
+<script type="text/javascript" src="js/cmiwebgui-validation.js"></script>
+<script type="text/javascript">
+
+var modelForm = $('#onboardCustomerSiteCPEModelForm');
+
+onboardCustomerSiteCPERules(modelForm);
+$('#triggerValidate').on('click',function(event)
+  {
+    if(modelForm.valid()) {
+      //If validate correct, then trigger the click of realSubmit
+      $('#onboardCustomerSiteToCPEModel').click();
+    }
+  });
+  
+
+</script>
+
+<br/>
+<br/>
+<br/>
+
+<div id="infoDiv"  style="display:none;" class="answer_list" > 
+
+<div id = "statusResponseAlert" class="alert alert-info">
+    <strong>Status</strong> Click this button to check the status of the operation...
+    <button type="button" class="btn btn-success" id = "monitorStatus" onclick="monitorStatusFunction()">Monitor Status</button>
+    <button type="button" class="btn btn-success" id = "gettaskdetails" onclick="gettaskdetail();">Task Detail</button><br/>
+    <button type="button" class="btn btn-primary" id ="closestatusdivbtn" onclick='closeStatusDivOnboard("onboardCustomerSiteCPEModelForm");'>Go Back</button> 
+    <div><br/></div>
+    <div id="statustext" class="alert alert-info"></div>
+    <input type="hidden" id="savetaskid" value="">
+</div>
+
+
+<div class="alert alert-danger">
+  <strong>Note!</strong> Only proceed to Step 4 after Step 3 has been succesfully completed. 
+  <a href="/onboard_cpe_to_customer_site.html" class="btn btn-danger" role="button">Continue to Step 4</a>
+
+</div>
+</div>
+
+</div>
+</body>
+
+</html>
+
+

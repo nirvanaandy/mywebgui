@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+        <title>CMI Web GUI</title>
+
+<!-- import all related js and css files -->
+
+<script type="text/javascript" src="js/cmiwebgui-common.js"></script>
+<script type="text/javascript" src="js/cmiwebgui-functions.js"></script>
+<script type="text/javascript" src="js/cmiwebgui-constants.js"></script>
+
+<link rel="stylesheet" type="text/css" href="css/cmiwebgui-common.css" />
+<style type="text/css">
+.error{
+  color:red;
+  font-size: 12px;
+}
+</style>
+
+<nav class="navbar navbar-default" id="navigatebar">
+</nav>
+<script type="text/javascript">genNavigateBar();</script>
+
+</head>
+<body>
+
+<div class="container">
+<h3>All-in-One Onboard</h3>
+<!-- Content Here -->
+  <div class="panel-group" id="allInOnePanelGroup">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#allInOnePanelGroup" href="#onboardCustomerCMIdiv">
+                Onboard Customer in CMI
+                </a><p id="onboardCustomerCMIErrorLabel" style="font-size: 13px; color:red; display: none">(Error)</p>
+            </h4>
+        </div>
+        <div id="onboardCustomerCMIdiv" class="panel-collapse collapse in">
+          <div class="panel-body">
+              <!-- Form of CustomerCMI here -->
+<form class="form-horizontal" id = "onboardCustomerCMIModelForm">
+<fieldset>
+
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="cust-name">Customer Name</label>  
+  <div class="col-md-4">
+  <input id="cust-name" name="cust-name" type="text" placeholder="Customer Name" class="form-control input-md" required>
+    
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="cidn">CIDN</label>  
+  <div class="col-md-4">
+  <input id="cidn" name="cidn" type="text" placeholder="cidn" class="form-control input-md" >
+    
+  </div>
+</div>
+
+<!-- Select Basic -->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="existing-customer">Existing Customer</label>
+  <div class="col-md-4">
+    <select id="existing-customer" name="existing-customer" class="form-control">
+      <option value="True">True</option>
+      <option value="False">False</option>
+    </select>
+  </div>
+</div>
+
+<div class="form-group">
+  <label class="col-md-4 control-label" for="dedicated-customer-context">Dedicated Customer Context</label>
+  <div class="col-md-4">
+    <select id="dedicated-customer-context" name="dedicated-customer-context" class="form-control">
+      <option value="True">True</option>
+      <option value="False" selected="selected">False</option>
+    </select>
+  </div>
+</div>
+
+<div class="form-group">
+  <label class="col-md-4 control-label" for="primary-firewall-ip">Primary Firewall IP</label>
+  <div class="col-md-4">
+    <input id="primary-firewall-ip" name="primary-firewall-ip" type="text" placeholder="Primary Firewall IP" class="form-control input-md" >
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="shared-context-name">Shared Context Name</label>  
+  <div class="col-md-4">
+  <input id="shared-context-name" name="shared-context-name" type="text" placeholder="Shared Context Name" class="form-control input-md">
+    
+  </div>
+</div>
+
+<!-- Select Basic -->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="dedicated-security-policy">Dedicated Security Policy</label>
+  <div class="col-md-4">
+    <select id="dedicated-security-policy" name="dedicated-security-policy" class="form-control">
+      <option value="True">True</option>
+      <option value="False" selected="selected">False</option>
+    </select>
+  </div>
+</div>
+
+
+<div class="form-group">
+  <label class="col-md-4 control-label" for="security-policy">ACS Policy</label>  
+  <div class="col-md-4">
+  <input id="security-policy" name="security-policy" type="text" placeholder="Security Policy" class="form-control input-md">  
+  </div>
+</div>
+
+<div class="form-group">
+  <label class="col-md-4 control-label" for="snmp-community">SNMP Community</label>  
+  <div class="col-md-4">
+  <input id="snmp-community" name="snmp-community" type="text" placeholder="SNMP Community" class="form-control input-md" value="public" required>  
+  </div>
+</div>
+
+</fieldset>
+</form>
+<!-- End of CustomerCMI form -->
+          </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#allInOnePanelGroup" href="#onboardCustomerCPEdiv">
+                Onboard Customer in CPE
+                </a>
+            </h4>
+        </div>
+        <div id="onboardCustomerCPEdiv" class="panel-collapse collapse ">
+        <div class="panel-body">
+          <!-- Form of CustomerCPE here -->
+<form class="form-horizontal" id = "onboardCustomerCPEModelForm">
+<fieldset>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="cpe-customer-name">Customer Name</label>  
+  <div class="col-md-4">
+  <input id="cpe-customer-name" name="customer-name" type="text" placeholder="Customer Name" class="form-control input-md" disabled="true">
+    
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="cpe-cidn">CIDN</label>  
+  <div class="col-md-4">
+  <input id="cpe-cidn" name="cpe-cidn" type="text" placeholder="CIDN" class="form-control input-md" disabled="true">
+    
+  </div>
+</div>
+</fieldset>
+</form>
+<!-- End of CustomerCPE form -->
+        </div>
+        </div>
+   </div>
+   <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#allInOnePanelGroup" href="#onboardCustomerSiteCPEdiv">
+                Onboard Customer Site in CPE
+                </a><p id="onboardCustomerSiteCPEErrorLabel" style="font-size: 13px; color:red; display: none">(Error)</p>
+            </h4>
+        </div>
+        <div id="onboardCustomerSiteCPEdiv" class="panel-collapse collapse">
+            <div class="panel-body">
+              <!-- Form of CustomerSite CPE here -->
+
+<form class="form-horizontal" id = "onboardCustomerSiteCPEModelForm">
+
+<fieldset>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="site-id">Site ID</label>  
+  <div class="col-md-4">
+  <input id="site-id" name="site-id" type="text" placeholder="Site ID" class="form-control input-md" >
+    
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="site-name">Site Name</label>  
+  <div class="col-md-4">
+  <input id="site-name" name="site-name" type="text" placeholder="Site Name" class="form-control input-md">    
+  </div>
+</div>
+
+
+<div class="form-group">
+  <label class="col-md-4 control-label" for="northbound-system">Northbound System</label>  
+  <div class="col-md-4">
+  <input id="northbound-system" name="northbound-system" type="text" placeholder="Northbound System" class="form-control input-md" value="symphony" disabled="disabled">    
+  </div>
+</div>
+
+<div class="form-group">
+  <label class="col-md-4 control-label" for="street">Street</label>  
+  <div class="col-md-4">
+  <input id="street" name="street" type="text" placeholder="Street" class="form-control input-md" >    
+  </div>
+</div>
+
+<div class="form-group">
+  <label class="col-md-4 control-label" for="city">City</label>  
+  <div class="col-md-4">
+  <input id="city" name="city" type="text" placeholder="City" class="form-control input-md">    
+  </div>
+</div>
+
+<div class="form-group">
+  <label class="col-md-4 control-label" for="zip">Zip</label>  
+  <div class="col-md-4">
+  <input id="zip" name="zip" type="text" placeholder="Zip" class="form-control input-md">    
+  </div>
+</div>
+
+<div class="form-group">
+  <label class="col-md-4 control-label" for="state">State</label>  
+  <div class="col-md-4">
+  <input id="state" name="state" type="text" placeholder="State" class="form-control input-md">    
+  </div>
+</div>
+
+<div class="form-group">
+  <label class="col-md-4 control-label" for="siteName">Country</label>  
+  <div class="col-md-4">
+  <input id="country" name="country" type="text" placeholder="Country" class="form-control input-md">    
+  </div>
+</div>
+</fieldset>
+</form>
+<!-- End of the CustomerSite CPE form -->
+            </div>
+        </div>
+    </div>
+
+   <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#allInOnePanelGroup" href="#onboardCPECustomerSitediv">
+                Onboard CPE to Customer Site
+                </a><p id="onboardCPECustomerSiteErrorLabel" style="font-size: 13px; color: red; display: none">(Error)</p>
+            </h4>
+        </div>
+        <div id="onboardCPECustomerSitediv" class="panel-collapse collapse">
+            <div class="panel-body">
+              <!-- Form of CPE Customer Site here -->
+<form class="form-horizontal" id = "onboardCPECustomerSiteForm">
+<fieldset>
+
+<div id="validationlerrordiv">
+<h4 style="font-size: 12px; color : red" id="validationerrorlabel"></h4>
+</div>
+
+    <ul id="cpeTab" class="nav nav-tabs">
+        <li class="active">
+            <a href="#cpebase" data-toggle="tab">CPE</a>
+        </li>
+        <li><a href="#cpedomaincontroller" data-toggle="tab">Domain Controller</a></li>
+        <li><a href="#cpedevice" data-toggle="tab">Device Details</a></li>
+        <li><a href="#cpenetwork" data-toggle="tab">Networks Details</a></li>
+    </ul>
+
+
+<!-- Line End -->
+<!-- Text input-->
+    <div id="cpeTabContent" class="tab-content">
+        <br>
+        <!-- Start the cpe base tab -->
+
+        <div class="tab-pane fade in active" id="cpebase">
+
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="cpe-name">CPE Name</label>
+              <div class="col-md-4">
+              <input id="cpe-name" name="cpe-name" type="text" placeholder="CPE Name" class="form-control input-md" required>
+            </div>
+        </div>
+
+        <!-- Text input-->
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="cmi-pop-location">CMI PoP Location</label>
+          <div class="col-md-4">
+            <input id="cmi-pop-location" name="cmi-pop-location" type="text" placeholder="CMI PoP Location" class="form-control input-md" value="lonsdale">
+          </div>
+        </div>
+        </div>
+        <!-- End of the cpe base tab -->
+
+        <!-- Begin of CPE Domain Controller -->
+        <div class="tab-pane fade " id="cpedomaincontroller">
+            <!-- Text input-->
+            <div style="position: relative;left: 50px"><p style="color: gray; font-weight: bold;font-size: 20px"> CPE Domain Controller Details:</p>
+                <button type="button" hidden="true" name="retrive" onclick="retrieveCPEBaseXML();">RetrieveCpeBaseXML</button>
+            </div>
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="domain-controller">Domain Controller</label>
+                <div class="col-md-4">
+                    <input id="domain-controller" name="domain-controller" type="text" placeholder="Domain Controller" class="form-control input-md" value="juniper-cso">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="cpe-as-number">CPE As Number</label>
+                <div class="col-md-4">
+                    <input id="cpe-as-number" name="cpe-as-number" type="text" placeholder="Cpe as Number" class="form-control input-md">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="pe-as-number">PE As Number</label>
+                <div class="col-md-4">
+                    <input id="pe-as-number" name="pe-as-number" type="text" placeholder="PE as Number" class="form-control input-md">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="pe-router-name">PE Router Name</label>
+                <div class="col-md-4">
+                    <input id="pe-router-name" name="pe-router-name" type="text" placeholder="PE Router Name" class="form-control input-md">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="deployment-template-name">Deployment Template Name</label>
+                <div class="col-md-4">
+                    <input id="deployment-template-name" name="deployment-template-name" type="text" placeholder="Deployment Template Name" class="form-control input-md" value="NFX_Telstra_uCPE">
+                </div>
+            </div>
+
+            <!-- Select Basic --><!-- this field should belong to CPE Domain Controller -->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="customer-type">Customer Type</label>
+                <div class="col-md-4">
+                    <select id="customer-type" name="customer-type" class="form-control">
+                        <option value="large">large</option>
+                        <option value="medium">medium</option>
+                        <option value="small" selected="selected">small</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="customer-username">Customer Username</label>
+                <div class="col-md-4">
+                    <input id="customer-username" name="customer-username" type="text" placeholder="Customer Username" class="form-control input-md">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="customer-password">Customer Password</label>
+                <div class="col-md-4">
+                    <input id="customer-password" name="customer-password" type="text" placeholder="Customer Password" class="form-control input-md">
+                </div>
+            </div>
+
+        </div>
+
+        <!-- End of CPE Domain Controller -->
+        <!-- Start of Device Details tab -->
+        <div class="tab-pane fade " id="cpedevice">
+        <div style="position: relative;left: 50px"><p style="color: gray; font-weight: bold;font-size: 20px"> Device Details:</p>
+            <button type="button" data-toggle="modal" data-target="#deviceModal">
+                <b>Add a Device</b>
+            </button>
+            <button type="button" hidden="true" name="retrive" onclick="retrieveAllDevices();">RetrieveXML</button>
+        </div>
+            <!-- Add -->
+            <br>
+            <table class="table table-hover table-bordered" id="deviceTable">
+                <thead>
+                <tr title="Double click a row to update">
+                    <th>Device Name</th>
+                    <th>Device Type</th>
+                    <th>Nat Required</th>
+                    <th>Monitor Required</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <!-- Start of the Device Input form -->
+        <!-- 模态框（Modal） -->
+        <div class="modal fade" id="deviceModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="deviceModalLabel">
+                            Device Detail:
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="device-name">Device Name</label>
+                            <div class="col-md-4">
+                                <input id="device-name" name="device-name" type="text" placeholder="Device Name" class="form-control input-md">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="device-type">Device Type</label>
+                            <div class="col-md-4">
+                                <select id="device-type" name="device-type" class="form-control">
+                                    <option value="Server" selected="true">Server</option>
+                                    <option value="vSRX">vSRX</option>
+                                    <option value="Switch">Switch</option>
+                                    <option value="Modem">Modem</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- Select Basic -->
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="nat-required">Nat Required</label>
+                            <div class="col-md-4">
+                                <select id="nat-required" name="nat-required" class="form-control">
+                                    <option value="True" >True</option>
+                                    <option value="False" selected="selected">False</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="monitoring-required">Monitoring Required</label>
+                            <div class="col-md-4">
+                                <select id="monitoring-required" name="monitoring-required" class="form-control">
+                                    <option value="True" selected="selected">True</option>
+                                    <option value="False">False</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" id="closedevicebtn" data-dismiss="modal">Close
+                        </button>
+                        <button type="button" class="btn btn-primary" id="createdevicebtn" onclick="addDevice();">
+                            Create
+                        </button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
+
+        <!-- End of the Device input form -->
+        <!-- End of the Device Details tab -->
+
+        <!-- Start of Network Details tab -->
+        <div class="tab-pane fade " id="cpenetwork">
+            <div style="position: relative;left: 50px"><p style="color: gray; font-weight: bold;font-size: 20px"> Network Details:</p>
+            <button type="button" data-toggle="modal" data-target="#networkModal">
+                <b>Add a Network</b>
+            </button>
+            <button type="button" hidden="true" name="retrive" onclick="retrieveAllNetworks();">RetrieveXML</button>
+            </div>
+            <div>
+            <br>
+            <table class="table table-hover table-bordered" id="networkTable">
+                <thead>
+                <tr>
+                    <th>Network Name</th>
+                    <th>Subset Type</th>
+                    <th>Size</th>
+                    <th>Pre-Configured</th>
+                    <th>SubNet</th>
+                    <th>Gateway Ip</th>
+                    <th>Local Ip</th>
+                    <th>Local-Interface</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+
+            </div>
+        </div>
+        <!-- End of Network Details tab -->
+        <!-- Start of the network Input form -->
+        <div class="modal fade" id="networkModal" tabindex="-2" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="networkModalLabel">
+                            Network Detail:
+                        </h4>
+                        <div><h4 style="font-size: 12px; color: red" id="validatenetworkerrorlabel"></h4></div>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="network-name">Network Name</label>
+                            <div class="col-md-4">
+                                <select id="network-name" name="network-name" class="form-control">
+                                    <option value="nfx-oam" selected="selected">nfx-oam</option>
+                                    <option value="nfx-wan0">nfx-wan0</option>
+                                    <option value="nfx-wan1">nfx-wan1</option>
+                                    <option value="nfx-lan">nfx-lan</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="subnet-type">Subnet Type</label>
+                            <div class="col-md-4">
+                                <select id="subnet-type" name="subnet-type" class="form-control">
+                                    <option value="CPEMGMT" selected="selected">CPEMGMT</option>
+                                    <option value="CPEWAN">CPEWAN</option>
+                                    <option value="CPELAN">CPELAN</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="size">Size   </label>
+                            <div class="col-md-4">
+                                <input id="size" name="size" type="text" placeholder="Size" class="form-control input-md">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="pre-configured">Pre-Configured</label>
+                            <div class="col-md-4">
+                                <select id="pre-configured" name="pre-configured" class="form-control">
+                                    <option value="True" >True</option>
+                                    <option value="False" selected="selected">False</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="subnet">Subnet</label>
+                            <div class="col-md-4">
+                                <input id="subnet" name="subnet" type="text" placeholder="subnet" class="form-control input-md"  data-toggle="tooltip" title="e.g. 10.80.18.0/28">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="gateway-ip">Gateway IP</label>
+                            <div class="col-md-4">
+                                <input id="gateway-ip" name="gateway-ip" type="text" placeholder="gatewayIP" class="form-control input-md" data-toggle="tooltip" title="IPv4 address">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="local-ip">Local IP</label>
+                            <div class="col-md-4">
+                                <input id="local-ip" name="local-ip" type="text" placeholder="localip" class="form-control input-md" data-toggle="tooltip" title="IPv4 address">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="local-interface">Local-Interface</label>
+                            <div class="col-md-4">
+                                <select id="local-interface" name="local-interface" class="form-control">
+                                    <option value=""  selected="selected"></option>
+                                    <option value="WAN_0">WAN_0</option>
+                                    <option value="WAN_1">WAN_1</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" id="closenetworkbtn" data-dismiss="modal">Close
+                        </button>
+                        <button type="button" class="btn btn-primary" id="createnetworkbtn" onclick="addNetwork();">
+                            Create
+                        </button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
+    <!-- End of the network input modal -->        
+    </div>
+</fieldset>
+</form>
+
+<!-- End of CPE Customer Site form -->
+            </div>
+        </div>
+    </div>
+
+   <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#allInOnePanelGroup" href="#shipCPEdiv">
+                Ship CPE
+                </a><p id="shipCPEErrorLabel" style="font-size: 13px; color:red; display: none">(Error)</p>
+            </h4>
+        </div>
+        <div id="shipCPEdiv" class="panel-collapse collapse">
+            <div class="panel-body">
+              <!-- Form of Ship CPE here -->
+          <form class="form-horizontal" id = "shipCPEForm">
+            <fieldset>
+            <!-- Text input-->
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="serial-number">Serial Number</label>  
+              <div class="col-md-4">
+              <input id="serial-number" name="serial-number" type="text" placeholder="Serial Number" class="form-control input-md">                
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="activation-code">Activation Code</label>  
+              <div class="col-md-4">
+              <input id="activation-code" name="activation-code" type="text" placeholder="Activation Code" class="form-control input-md">                
+              </div>
+            </div>
+
+           </fieldset>
+          </form> 
+          <!-- End of Ship CPE form -->
+            </div>
+        </div>
+    </div>
+<br/><br/>
+<div align="center" >
+<!-- Trigger the modal with a button -->
+<button type="button" class="btn btn-success btn-lg" id ="triggerValidate" >Submit</button>
+<button type="button" id ="generatePayloadBtn" data-toggle="modal" data-target="#payloadModal" hidden="true">realSubmit</button>
+<button type="button" class="btn btn-success btn-lg" onclick="showpayload();" >Show Payload</button>
+
+</div>
+
+</div>
+<!-- End of the panel group -->    
+</div>
+<br/>
+
+<script type="text/javascript">
+
+//initialize the tool tips
+$().ready(function () { 
+
+  //$("[data-toggle='tooltip']").tooltip(); 
+
+  for( var key in onboardCustomerCMITips) {
+      $('#'+key).attr('title',onboardCustomerCMITips[key]);
+  }
+
+  for( var key in onboardCustomerSiteCPETips) {
+      
+      $('#'+key).attr('title',onboardCustomerSiteCPETips[key]);
+  }
+  for( var key in onboardCPECustomerSiteTips) {
+      $('#'+key).attr('title',onboardCPECustomerSiteTips[key]);
+  }
+
+  for( var key in shipCPETips) {
+      $('#'+key).attr('title',shipCPETips[key]);
+  }
+
+
+});
+
+//When cust-name, cidn changed, refresh the customer-name and cidn in onboardCustomerCPEForm
+$('#cust-name').on("change",function(){
+  $('#cpe-customer-name').val($('#cust-name').val());
+});  
+
+$('#cidn').on("change",function(){
+  $('#cpe-cidn').val($('#cidn').val());
+});  
+
+
+</script>
+<script type="text/javascript" src="js/cmiwebgui-allinone.js"></script>
+
+<script type="text/javascript" src="js/cmiwebgui-constants.js"></script>
+
+<script type="text/javascript" src="js/cmiwebgui-validation.js"></script>
+<script type="text/javascript">  
+var modelForm = $('#onboardCustomerCMIModelForm');
+onboardCustomerOnCMIRules(modelForm);
+
+modelForm = $('#onboardCustomerSiteCPEModelForm');
+onboardCustomerSiteCPERules(modelForm);
+
+modelForm = $('#onboardCPECustomerSiteForm');
+onboardCPECustomerSiteRules(modelForm);
+
+modelForm = $('#shipCPEForm');
+shipCPERules(modelForm);
+
+$('#triggerValidate').on('click',function(event)
+  {
+    // //validate all the forms one by one
+    // showPanelHideOthers("onboardCustomerCMIdiv");
+
+    // var valdatedForm = $('#onboardCustomerCMIModelForm');
+    // if( ! valdatedForm.valid()) {
+    //     $('#onboardCustomerCMIErrorLabel').show();
+    //     //alert("Onboard Customer to CMI Model has invalide input !");
+    //     //$('#onboardCustomerCMIdiv').collapse("show");
+    //     return;
+    // }
+    // $('#onboardCustomerCMIErrorLabel').hide();
+
+    // showPanelHideOthers("onboardCustomerSiteCPEdiv");
+
+    // valdatedForm = $('#onboardCustomerSiteCPEModelForm');
+    // if( ! valdatedForm.valid()) {
+    //     //alert("Onboard Customer Site to CPE Model has invalide input !");
+
+    //     $('#onboardCustomerSiteCPEErrorLabel').show();
+    //     return;
+    // }
+    // $('#onboardCustomerSiteCPEErrorLabel').hide();
+
+    // showPanelHideOthers("onboardCPECustomerSitediv");
+
+    // valdatedForm = $('#onboardCPECustomerSiteForm');
+    // if( ! validateCPEForm()) {
+    //     //alert("Onboard CPE to Customer Site has invalide input !");
+    //     $('#onboardCPECustomerSiteErrorLabel').show();
+    //     //$('#onboardCPECustomerSitediv').collapse("show");
+    //     return;
+    // }
+    // $('#onboardCPECustomerSiteErrorLabel').hide();
+
+    // showPanelHideOthers("shipCPEdiv");
+
+    // var valdatedForm = $('#shipCPEForm');
+    // if( ! valdatedForm.valid()) {
+    //     //alert("Onboard CPE to Customer Site has invalide input !");
+    //     $('#shipCPEErrorLabel').show();
+    //     //$('#onboardCPECustomerSitediv').collapse("show");
+    //     return;
+    // }
+    // $('#shipCPEErrorLabel').hide();
+
+    //All passed, then create the payload to show
+    generatePayload();
+
+});
+
+function showPanelHideOthers(showPanelName) {
+    $('#onboardCustomerCMIdiv').collapse("hide");
+    $('#onboardCustomerCPEdiv').collapse("hide");
+    $('#onboardCustomerSiteCPEdiv').collapse("hide");
+    $('#onboardCPECustomerSitediv').collapse("hide");
+    $('#shipCPEdiv').collapse("hide");
+        
+    if(showPanelName.length>0)
+      $('#'+showPanelName).collapse("show");
+}
+
+function generatePayload() {
+
+    generateCustomerCMIPayload();
+    generateCustomerCPEPayload();
+    generateCustomerSiteCPEPayload();
+    generateCPECustomerSitePayload();
+    generateShipCPEPayload();
+
+    //Set the inputted Customer cidn, site id, CPE name on payloadModal
+    var customerName = $('#cust-name').val();
+    var customerCidn = $('#cidn').val();
+    var siteName = $('#site-name').val();
+    var siteId = $('#site-id').val();
+    var cpeName = $('#cpe-name').val();
+
+    $('#selectedCustomerCidnSiteCPE').text("Customer: "+customerName+"("+customerCidn+"); Site: "+
+                                           siteName+"("+siteId+"); CPE: "+cpeName);
+    $('#generatePayloadBtn').click();
+
+}
+
+
+function showpayload(){
+  $('#generatePayloadBtn').click();
+}
+
+//To start the whole process, calling the APIs one by one
+var intervalId = 0;
+var currentStep = 0;
+
+//$('#goAheadButton').on('click', function(event) {
+function goAheadFunction() {
+    
+    document.getElementById('infoDiv').style.display = "block";
+    document.getElementById('allInOnePanelGroup').style.display = "none";
+    $('#payloadModal').modal('hide');
+
+    onboardProcess();
+}
+//});
+
+
+ 
+</script>
+<!-- Payload Modal -->
+<div id="payloadModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Is this correct?</h4>
+        <br/>
+        <h5 id="selectedCustomerCidnSiteCPE"></h5>
+      </div>
+      <div class="modal-body">
+
+      <ul id="payloadTab" class="nav nav-tabs">
+          <li class="active">
+              <a href="#customerCMITab" data-toggle="tab">CMI</a>
+          </li>
+          <li><a href="#customerCPETab" data-toggle="tab">CPE</a></li>
+          <li><a href="#customerSiteCPETab" data-toggle="tab">CustSite in CPE</a></li>
+          <li><a href="#cpeCustomerSiteTab" data-toggle="tab">CPE to CustSite</a></li>
+          <li><a href="#shipCPETab" data-toggle="tab">Ship CPE</a></li>
+      </ul>
+
+      <div id="payloadTabContent" class="tab-content">
+          <br>
+
+          <div class="tab-pane fade in active" id="customerCMITab">
+            <textarea id = "customerCMIPayloadContent" style="width: 100%; height: 200px; ">Placeholder Text for Payload XML.</textarea>
+          </div>      
+
+          <div class="tab-pane fade " id="customerCPETab">
+            <textarea id = "customerCPEPayloadContent" style="width: 100%; height: 200px; ">Placeholder Text for Payload XML.</textarea>
+          </div>
+
+          <div class="tab-pane fade " id="customerSiteCPETab">
+            <textarea id = "customerSiteCPEPayloadContent" style="width: 100%; height: 200px; ">Placeholder Text for Payload XML.</textarea>
+          </div>
+
+          <div class="tab-pane fade " id="cpeCustomerSiteTab">
+            <textarea id = "cpeCustomerSitePayloadContent" style="width: 100%; height: 200px; ">Placeholder Text for Payload XML.</textarea>
+          </div>
+
+          <div class="tab-pane fade " id="shipCPETab">
+            <textarea id = "shipCPEPayloadContent" style="width: 100%; height: 200px; ">Placeholder Text for Payload XML.</textarea>
+          </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-success" id = "goAheadButton" onclick="goAheadFunction();">Yes, go ahead!</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<!-- Begin of the process status divs -->
+<div id="infoDiv"  style="display:none;" class="answer_list" > 
+
+<div id = "statusResponseAlert" class="alert alert-info">
+    <strong>Status</strong> Click this button to check the status of the operation ...
+    <button type="button" class="btn btn-success" id = "monitorStatus" onclick="monitorStatusFunction()">Monitor Status</button>    
+    <button type="button" class="btn btn-success" id = "gettaskdetails" onclick="gettaskdetail();">Task Detail</button> 
+    <p>&nbsp;</p>
+    <button type="button" class="btn btn-primary" id = "closestatusdivbtn" onclick="closeAllinOneStatusDiv();">Go Back</button>
+    <div><br/></div>
+      <div class="alert alert-info"><strong id="showTaskIdOnboardCustomerCMI"></strong><br/><div id="statustextOnboardCustomerCMI"></div></div>
+      <div class="alert alert-info"><strong id="showTaskIdOnboardCustomerCPE"></strong><br/><div id="statustextOnboardCustomerCPE"></div></div>
+      <div class="alert alert-info"><strong id="showTaskIdOnboardCustomerSiteCPE"></strong><br/><div id="statustextOnboardCustomerSiteCPE"></div></div>
+      <div class="alert alert-info"><strong id="showTaskIdOnboardCPECustomerSite"></strong><br/><div id="statustextOnboardCPECustomerSite"></div></div>
+      <div class="alert alert-info"><strong id="showTaskIdShipCPE"></strong><br/><div id="statustextShipCPE"></div></div>
+
+    <input type="hidden" id="savetaskid" value="tiehieadfiefehieaeei"> 
+
+</div>
+
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+        <title>CMI Web GUI</title>
+
+<!-- import all related js and css files -->
+
+<script type="text/javascript" src="js/cmiwebgui-common.js"></script>
+<script type="text/javascript" src="js/cmiwebgui-functions.js"></script>
+
+<link rel="stylesheet" type="text/css" href="css/cmiwebgui-common.css" />
+
+<nav class="navbar navbar-default" id="navigatebar">
+</nav>
+<script type="text/javascript">genNavigateBar();</script>
+
+</head>
+
+<body>
+
+<div class="container">
+<!-- Content Here -->
+<br/>
+<br/>
+<br/>
+<br/>
+
+<h2> View Existing Customers Sites in CPE Model </h2>
+<div id="customersitelist">
+<div id="selectarea">
+  <table id="selecttable" class="table">
+    <tr>
+      <td align="left"><b>Customer:</b><td>
+      <td id="customerlistbox" align="left">
+        <div>
+        <select id="customerlist" name="customerlist" class="form-control">
+        </select>
+      </div>
+      </td>
+      <td><button type="button" id="query" class="btn btn-success" onclick=" enquireCustomerSiteRefreshSiteTable('view'); ">Enquire</button></td>
+      <td></td><td width="40%"></td>
+    </tr>
+  </table>
+</div>
+
+<br/><br/>
+<div id="tablearea">
+<table id="customersitetable" class="table table-hover">
+<tbody>
+<tr>
+    <th>Customer Site Name</th>
+    <th>Customer Site ID</th>
+</tr>
+</tbody>
+</table>
+</div>
+</div> 
+<!-- End of the customerlist div -->
+<script>
+//Retrieve the existing customers on CPE, fill the select customer listbox
+$().ready(get_customer_cpe_fill_listbox());
+
+
+</script>
+
+</div>
+
+</body>
+</html>

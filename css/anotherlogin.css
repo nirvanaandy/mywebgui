@@ -1,0 +1,188 @@
+/* A CSS Framework by Mike Stenhouse of Content with Style */
+
+/* SITE SPECIFIC LAYOUT */
+
+@font-face {
+	font-family: 'Primary';
+	font-style: normal;
+	font-weight: 400;
+	src: url(/extjs/resources/fonts/roboto/Roboto-Regular.ttf) format('truetype');
+}
+
+
+body {
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	color: #4A4A4A;
+	background-color: #f0f0f0;
+	font-size: 14px;/* IE10 Consumer Preview *//* Mozilla Firefox *//* Opera *//* Webkit (Safari/Chrome 10) *//* Webkit (Chrome 11+) *//* W3C Markup, IE10 Release Preview */
+	font-family: "Primary";
+}
+
+.logo {
+	display: block;
+	height: 50px;
+	background: url("/images/icons/headerlogo.png") no-repeat center;
+	background-size: contain;
+}
+
+.logo .product-name {
+	text-align: center;
+	top: 22px;
+	font-size: 36px;
+	font-weight: bold;
+	float: left;
+}
+
+.text {
+	padding: 20px 0;
+}
+
+form {
+	width: 400px;
+	height: auto;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin: -240px 0px 0px -240px;
+	padding: 40px;
+	-webkit-box-shadow: 5px 5px 30px 5px rgba(255,86,8,0.3);
+	-moz-box-shadow: 5px 5px 30px 5px rgba(255,86,8,0.3);
+	box-shadow: 5px 5px 30px 5px rgba(5,16,160,0.3);
+}
+
+input.box,input.button {
+	width: 100%;
+	height: 40px;
+	display: block;
+	margin: 0px auto 20px auto;
+	font-size: 14px;
+	padding: 0px 15px;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	color: #4A4A4A;
+	border-radius: 0px;
+	border-width: 1px;
+	border-color: #D0D0D0;
+	border-style: solid;
+}
+
+input.button {
+	cursor: pointer;
+	background-color: white;
+	background-image: linear-gradient(0deg, #F8F8F8 0%, #FFFFFF 100%);
+	border: 1px solid #C2C2C2;
+	box-shadow: 0px 1px 0px 0px #C2C2C2;
+	border-radius: 2px;
+	color: #7C97B1;
+}
+
+input.box:focus{
+	outline: none;
+	border-color: #0084FF;
+}
+
+input.button:focus{
+	outline: none;
+	border-color: #0084FF;
+	background-image: linear-gradient(0deg, #D8ECFF 0%, #FBFDFF 100%);
+	box-shadow: 0px 1px 0px 0px #0084FF;
+	color:#0084FF;
+}
+
+input.button:active{
+	outline: none;
+	border-color: #0084FF;
+	background-image: linear-gradient(0deg, #D8ECFF 0%, #FBFDFF 100%);
+	margin-top: 21px; /* margin 20 + shadow 2*/
+	box-shadow: none;
+	color: #0084FF;
+}
+
+input.box {
+	background: #ffffff;
+}
+
+input.box:focus::-webkit-input-placeholder{
+	/*color: #b3daff;*/
+}
+
+::-webkit-input-placeholder { /* WebKit browsers */
+    color:    #b3b3b3 ;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+   color:    #b3b3b3 ;
+   opacity:  1;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+   color:    #b3b3b3 ;
+   opacity:  1;
+}
+:-ms-input-placeholder { /* Internet Explorer 10+ */
+   color:    #b3b3b3 ;
+}
+
+#forgotpassword {
+	background: none;
+	border: none;
+	color: #4A4A4A;
+	font-size: 14px;
+	padding: 0px;
+	cursor: pointer;
+	float: right;
+	margin-bottom: 20px;
+	font-family: "Primary", helvetica, arial, sans-serif;
+}
+
+.button.login-button{
+	float: right;
+	clear: both;
+	background: #4a4a4a none;
+	box-shadow: none;
+	color: #f1f1f1;
+}
+
+.button.login-button:active{
+	float: right;
+	clear: both;
+	background: #4a4a4a none;
+	box-shadow: none;
+	color: #f1f1f1;
+	border-color: inherit;
+	margin-top: 1px;
+}
+
+.button.login-button:focus{
+	float: right;
+	clear: both;
+	background: #4a4a4a none;
+	box-shadow: none;
+	color: #f1f1f1;
+	border-color: black;
+}
+
+.anuta {
+	position: absolute;
+  	bottom: 20px;
+  	margin-left: auto;
+  	margin-right: auto;
+  	left: 0;
+  	right: 0;
+}
+
+.error {
+	color: #F44336;
+	font-size: 12px;
+	margin: 10px 0px;
+	height: auto;
+	line-height: 20px;
+}
+
+.copyright-msg{
+	display: block;
+	clear: both;
+	text-align: center;
+	padding-top: 15px;
+	color: #255BC5;
+}
